@@ -1,9 +1,8 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders the welcome message', () => {
+  const { getByText } = render(<App />); // Use destructured render methods directly
+  const messageElement = getByText(/Hi, I am Daniel and I am single since a long time ago/i);
+  expect(messageElement).toBeInTheDocument();
 });
