@@ -24,7 +24,7 @@ jobs:
 
     - name: Install golangci-lint
       run: |
-        curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s latest
+        go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
     - name: Install dependencies
       run: |
@@ -34,7 +34,7 @@ jobs:
     - name: Run GolangCI Lint
       run: |
         cd backend
-        ./bin/golangci-lint run
+        golangci-lint run
 
     - name: Run tests
       run: |
