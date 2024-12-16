@@ -10,56 +10,38 @@ on:
       - dev
 
 jobs:
-  backend:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      # Set up Go environment
-      - name: Set up Go environment
-        uses: actions/setup-go@v3
-        with:
-          go-version: '1.23.3'
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: 1.23.3
 
-      # Change to backend directory
-      - name: Change directory to backend
-        run: cd backend
+    - name: Install dependencies
+      run: |
+        cd backend
+        go mod tidy
 
-      # Install dependencies (go mod tidy)
-      - name: Install Go dependencies
-        run: |
-          cd backend
-          go mod tidy
+    - name: Run GolangCI Lint
+      run: |
+        cd backend
+        golangci-lint run
 
-      # Install GolangCI Lint
-      - name: Install GolangCI Lint
-        run: |
-          cd backend
-          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+    - name: Run tests
+      run: |
+        cd backend
+        go test ./...
 
-      # Run GolangCI Lint
-      - name: Run GolangCI Lint
-        run: |
-          cd backend
-          golangci-lint run
+    - name: Build Docker image
+      run: |
+        cd backend
+        docker build -t backend .
 
-      # Run tests
-      - name: Run Tests
-        run: |
-          cd backend
-          go test ./...
-
-      # Build Docker image
-      - name: Build Docker image
-        run: |
-          cd backend
-          docker build -t backend .
-
-      # Run Docker container
-      - name: Run Docker container
-        run: |
-          cd backend
-          docker run -d -p 8080:8080 backend
+    - name: Run Docker container
+      run: |
+        docker run -d -p 8080:8080 backend
