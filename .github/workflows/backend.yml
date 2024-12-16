@@ -1,0 +1,41 @@
+name: Backend CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+      - release
+  pull_request:
+    branches:
+      - dev
+      - release
+
+jobs:
+  lint_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go 1.20
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'
+
+      - name: Install dependencies
+        run: |
+          go mod tidy
+          go mod download
+
+      - name: Install golangci-lint
+        run: |
+          curl -sSfL https://github.com/golangci/golangci-lint/releases/download/v1.49.0/golangci-lint-1.49.0-linux-amd64.tar.gz | tar -xzv
+          mv golangci-lint-1.49.0-linux-amd64/golangci-lint /usr/local/bin
+
+      - name: Run golangci-lint
+        run: golangci-lint run
+
+      - name: Run tests
+        run: go test ./...
