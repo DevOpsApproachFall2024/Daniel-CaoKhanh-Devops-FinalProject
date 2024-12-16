@@ -40,3 +40,8 @@ jobs:
       - name: Run Unit Tests
         working-directory: ./frontend
         run: npm test
+
+      # Build Docker Image
+      - name: Build Docker Image
+        working-directory: ./frontend
+        run: docker build -t frontend-app .
