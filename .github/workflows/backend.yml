@@ -1,16 +1,13 @@
-name: Backend CI/CD
+name: Backend CI
 
 on:
   push:
     branches:
       - backend
-      - frontend
-      - dev
-      - release
-      - main
   pull_request:
     branches:
       - backend
+      - dev
 
 jobs:
   lint:
@@ -18,9 +15,26 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Install dependencies
+
+      - name: Change directory to backend
+        run: cd backend
+
+      - name: Install Go dependencies
         run: go mod tidy
+
+      - name: Install GolangCI Lint
+        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
       - name: Run GolangCI Lint
         run: golangci-lint run
+
       - name: Run Tests
         run: go test ./...
+
+      - name: Build Docker Image
+        run: |
+          docker build -t backend .
+        
+      - name: Run Docker Container
+        run: |
+          docker run -d -p 8080:8080 backend
