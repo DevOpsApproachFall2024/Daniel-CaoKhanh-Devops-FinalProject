@@ -22,7 +22,7 @@ jobs:
       - name: Set up Go environment
         uses: actions/setup-go@v3
         with:
-          go-version: '1.20'
+          go-version: '1.23.3'
 
       # Change to backend directory
       - name: Change directory to backend
