@@ -1,0 +1,40 @@
+name: Semantic Versioning
+
+on:
+  push:
+    branches:
+      - release  # Trigger this workflow only when changes are pushed to the 'release' branch
+
+jobs:
+  semantic-versioning:
+    name: Semantic Versioning
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Step 4: Run standard-version to bump version and generate changelog
+      - name: Bump Version and Generate Changelog
+        run: npm run release
+
+      # Step 5: Commit and push changes (package.json, CHANGELOG.md, and tags)
+      - name: Commit and Push Changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add package.json CHANGELOG.md
+          git commit -m "chore(release): bump version and update changelog"
+          git tag $(node -p "require('./package.json').version")
+          git push origin release --follow-tags
