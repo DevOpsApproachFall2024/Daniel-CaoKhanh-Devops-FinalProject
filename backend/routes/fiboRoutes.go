@@ -2,6 +2,7 @@ package routes
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -32,7 +33,9 @@ func FibonacciHandler(w http.ResponseWriter, r *http.Request) {
 		result += fmt.Sprintf("%d ", num)
 	}
 
-	// Write plain text response
-	w.Header().Set("Content-Type", "text/plain")
-	w.Write([]byte(result))
+	// Write plain text response and check for errors
+	_, err = w.Write([]byte(result))
+	if err != nil {
+		log.Printf("Error writing response: %v", err)
+	}
 }
