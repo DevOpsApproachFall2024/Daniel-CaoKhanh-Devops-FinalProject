@@ -32,7 +32,7 @@ jobs:
       - name: Bump Version and Generate Changelog
         run: npm run release
 
-      # Step 6: Push changes back to the repository
+      
       - name: Commit and Push Changes
         run: |
           git push origin release --follow-tags
