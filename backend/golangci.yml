@@ -1,0 +1,10 @@
+linters:
+  enable:
+    - golint
+    - gocyclo
+    - errcheck
+    - staticcheck
+
+issues:
+  exclude:
+    - "Error return value is not checked"
