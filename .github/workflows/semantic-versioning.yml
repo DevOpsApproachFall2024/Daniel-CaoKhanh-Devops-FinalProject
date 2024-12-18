@@ -3,7 +3,7 @@ name: Semantic Versioning
 on:
   push:
     branches:
-      - release  # Trigger this workflow only when changes are pushed to the 'release' branch
+      - release
 
 jobs:
   semantic-versioning:
@@ -25,16 +25,17 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # Step 4: Run standard-version to bump version and generate changelog
-      - name: Bump Version and Generate Changelog
-        run: npm run release
-
-      # Step 5: Commit and push changes (package.json, CHANGELOG.md, and tags)
-      - name: Commit and Push Changes
+      # Step 4: Configure Git User
+      - name: Configure Git User
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add package.json CHANGELOG.md
-          git commit -m "chore(release): bump version and update changelog"
-          git tag $(node -p "require('./package.json').version")
+
+      # Step 5: Run standard-version to bump version and generate changelog
+      - name: Bump Version and Generate Changelog
+        run: npm run release
+
+      # Step 6: Push changes back to the repository
+      - name: Commit and Push Changes
+        run: |
           git push origin release --follow-tags
