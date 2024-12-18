@@ -13,6 +13,9 @@ RUN go mod tidy
 # Copy the remaining application files
 COPY . .
 
+# Run tests
+RUN go test ./tests
+
 # Build the Go binary
 RUN go build -o main .
 
