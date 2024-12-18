@@ -21,17 +21,14 @@ jobs:
         with:
           node-version: 18
 
-      # Step 3: Install dependencies
       - name: Install Dependencies
         run: npm install
 
-      # Step 4: Configure Git User
       - name: Configure Git User
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-      # Step 5: Run standard-version to bump version and generate changelog
       - name: Bump Version and Generate Changelog
         run: npm run release
 
