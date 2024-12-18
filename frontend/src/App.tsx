@@ -1,12 +1,21 @@
 import React from 'react';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import WelcomePage from './WelcomePage';
+import TonyVideo from './TonyVideo';
+import RickVideo from './RickVideo';
+import Fibonacci from './Fibonacci';
 
 const App: React.FC = () => {
-  return (
-    <div className="app-container">
-      <h1>Hi, I am Daniel and I am single since a long time ago</h1>
-    </div>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<WelcomePage />} />
+                <Route path="/tony" element={<TonyVideo />} />
+                <Route path="/rick" element={<RickVideo />} />
+                <Route path="/fibonacci/:number" element={<Fibonacci />} />
+            </Routes>
+        </Router>
+    );
 };
 
 export default App;

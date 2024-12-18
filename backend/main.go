@@ -5,19 +5,26 @@ import (
 	"net/http"
 
 	"github.com/DevOpsApproachFall2024/Daniel-CaoKhanh-Devops-FinalProject/backend/routes"
+	"github.com/gorilla/handlers"
 )
 
 func main() {
-	// route for Tony's video
-	http.HandleFunc("/tony", routes.TonyHandler)
-	// route for Fibonacci sequence
-	http.HandleFunc("/fibonacci/", routes.FibonacciHandler)
-	// route to get rick rolled
-	http.HandleFunc("/rick", routes.RickHandler)
+	// Create a new router
+	mux := http.NewServeMux()
 
-	// log and start the server
+	// Define your routes
+	mux.HandleFunc("/tony", routes.TonyHandler)
+	mux.HandleFunc("/fibonacci/", routes.FibonacciHandler)
+	mux.HandleFunc("/rick", routes.RickHandler)
+
+	// Set up CORS options
+	corsOptions := handlers.AllowedOrigins([]string{"*"})
+	corsHeaders := handlers.AllowedHeaders([]string{"Content-Type", "X-Requested-With"})
+	corsMethods := handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS"})
+
+	// Log and start the server with CORS enabled
 	log.Println("Server running on port 8080...")
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", handlers.CORS(corsOptions, corsHeaders, corsMethods)(mux))
 	if err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
