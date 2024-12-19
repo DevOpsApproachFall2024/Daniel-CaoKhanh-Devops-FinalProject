@@ -1,0 +1,38 @@
+name: Semantic Versioning
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  semantic-versioning:
+    name: Semantic Versioning
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Configure Git User
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Bump Version and Generate Changelog
+        run: npm run release
+
+      
+      - name: Commit and Push Changes
+        run: |
+          git push origin release --follow-tags

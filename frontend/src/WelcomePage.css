@@ -1,0 +1,62 @@
+/* WelcomePage.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 50px;
+}
+
+h2 {
+    text-align: center;
+    color: #555;
+}
+
+/* Centering the button container */
+.button-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+button {
+    background-color: #6200ea; /* Purple */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin: 10px; /* Space between buttons */
+}
+
+button:hover {
+    background-color: #3700b3; /* Darker purple */
+    transform: scale(1.05);
+}
+
+form {
+    display: flex;
+    justify-content: center;
+}
+
+input[type="number"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #6200ea; /* Purple */
+    margin-right: 10px;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: #3700b3; /* Darker purple */
+}
