@@ -10,6 +10,12 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Install DOM
+RUN npm install react-router-dom @types/react-router-dom
+
+# Secure Babel
+RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
+
 # Copy the rest of the application code
 COPY . .
 
